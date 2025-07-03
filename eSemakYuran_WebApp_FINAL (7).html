@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSemak Yuran</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #004085;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>eSemak Yuran</h1>
+        <label for="query">Nama atau No. KP Pelajar</label>
+        <input type="text" id="query" placeholder="Contoh: Ali Bin Ahmad atau 010101-01-0101">
+        <button onclick="semakYuran()">SEMAK</button>
+        <div class="result" id="result">Sila masukkan maklumat dan tekan SEMAK</div>
+    </div>
+
+    <script>
+        async function semakYuran() {
+            const query = document.getElementById('query').value.trim();
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = "Sedang menyemak...";
+
+            if (!query) {
+                resultDiv.textContent = "Sila isi nama atau No. KP terlebih dahulu.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://script.google.com/macros/s/AKfycbw5j7U9qt7GtKX2Goh6JOhBUHp_iA6c2UDswAWa9gA/exec?query=${encodeURIComponent(query)}`);
+                const text = await response.text();
+                resultDiv.textContent = text;
+            } catch (error) {
+                resultDiv.textContent = "Ralat semasa menyemak. Sila cuba lagi.";
+            }
+        }
+    </script>
+</body>
+</html>
